@@ -1,14 +1,10 @@
 package com.example.omriakerman.goigahf2;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,19 +12,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.LogRecord;
-import android.os.Handler;
 
-import static com.example.omriakerman.goigahf2.HomeScreenActivity.db;
+import static com.example.omriakerman.goigahf2.InstructorHomeScreenActivity.db;
 
 /**
  * Created by user on 09/10/2017.

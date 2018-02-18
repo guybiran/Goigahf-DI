@@ -1,16 +1,12 @@
 package com.example.omriakerman.goigahf2;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-
-import java.util.ArrayList;
 
 public class StudentsListActivity extends AppCompatActivity {
 
@@ -32,9 +28,12 @@ public class StudentsListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent myIntent = new Intent(getApplicationContext(), HomeScreenActivity.class);
-        startActivityForResult(myIntent, 0);
+        finish();
         return true;
+    }
 
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 }

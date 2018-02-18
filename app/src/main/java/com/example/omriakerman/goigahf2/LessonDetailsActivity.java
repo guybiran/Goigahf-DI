@@ -42,10 +42,12 @@ public class LessonDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent myIntent = new Intent(getApplicationContext(), HomeScreenActivity.class);
-        startActivityForResult(myIntent, 0);
+        finish();
         return true;
-
+    }
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 
 }

@@ -68,4 +68,9 @@ public class StudentWallActivity extends AppCompatActivity {
         if(vehicle!=null){ vehicle.setText(student.getVehicle().getName()); }
         if(phoneNumber!=null){ phoneNumber.setText(student.getPhoneNumber()); }
     }
+
+    @Override
+    public void onBackPressed(){
+        finish();
+    }
 }
