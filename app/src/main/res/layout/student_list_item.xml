@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="75dp"
+    android:orientation="horizontal">
+
+
+    <RelativeLayout
+        android:id="@+id/image_layout"
+        android:layout_width="90dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/circle_imageView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/circle_drawable" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/name_license_layout"
+        android:layout_width="170dp"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/name_textView"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:paddingTop="5dp"
+            android:text="TextView"
+            android:textColor="@color/colorBlack"
+            android:textSize="19sp" />
+
+        <TextView
+            android:id="@+id/license_textView"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/name_textView"
+            android:paddingTop="1dp"
+            android:text="TextView"
+            android:textColor="@color/colorBlack"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/numOfLessons_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textColor="@color/colorBlack"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/next_lesson_layout"
+        android:layout_width="115dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/next_lesson_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/date_textView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="שיעור הבא:"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/date_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="22/11 - 10:00"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/emptyTextView"
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <RelativeLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@drawable/custom_rect_today_schedule"
+            android:elevation="5dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/current_lesson_rect"
+                android:layout_width="9dp"
+                android:layout_height="68dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/current_lesson_rect">
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/location_icon"
+                android:layout_width="16dp"
+                android:layout_height="15dp"
+                android:layout_above="@+id/car_icon"
+                android:layout_toEndOf="@+id/status_symbol"
+                android:layout_toRightOf="@+id/status_symbol"
+                android:layout_weight="1"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/icon_location" />
+
+            <ImageView
+                android:id="@+id/car_icon"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_below="@+id/start_address"
+                android:layout_toLeftOf="@+id/vehicle"
+                android:layout_toStartOf="@+id/vehicle"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/icon_car" />
+
+            <TextView
+                android:id="@+id/vehicle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/car_icon"
+                android:layout_toEndOf="@+id/location_icon"
+                android:layout_toRightOf="@+id/location_icon"
+                android:layout_weight="1"
+                android:paddingRight="6dp"
+                android:text="רכב: סיטרואן יאוטומטי"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/start_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_below="@+id/name_textView"
+                android:layout_toEndOf="@+id/location_icon"
+                android:layout_toRightOf="@+id/location_icon"
+                android:layout_weight="1"
+                android:text="איסוף מרכזית כרמיאל"
+                android:textAlignment="textStart"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/name_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/more_image_view"
+                android:layout_toEndOf="@+id/status_symbol"
+                android:layout_toRightOf="@+id/status_symbol"
+                android:paddingTop="2dp"
+                android:text="עמרי אקרמן"
+                android:textAlignment="textStart"
+                android:textColor="@color/colorBlack"
+                android:textSize="19sp"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/time_layout"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_alignTop="@+id/leeson_number_layout"
+                android:layout_toEndOf="@+id/current_lesson_rect"
+                android:layout_toRightOf="@+id/current_lesson_rect">
+
+                <TextView
+                    android:id="@+id/minutes"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:paddingTop="7dp"
+                    android:text="00"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/hour"
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:paddingTop="9dp"
+                    android:text="11"
+                    android:textAlignment="textEnd"
+                    android:textColor="#000000"
+                    android:textSize="24sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/status_symbol"
+                android:layout_width="40dp"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="46dp"
+                android:layout_marginStart="46dp"
+                android:layout_toEndOf="@+id/current_lesson_rect"
+                android:layout_toRightOf="@+id/current_lesson_rect"
+                android:paddingRight="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_menu_camera"
+                android:visibility="visible" />
+
+
+            <LinearLayout
+                android:id="@+id/leeson_number_layout"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="18dp"
+                android:layout_marginRight="18dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:text="שיעור"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/lesson_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:paddingBottom="10dp"
+                    android:text="25"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="22sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/more_image_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:scaleType="fitStart"
+                app:srcCompat="@drawable/icon_vertical_3points" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/emptyTextView2"
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+
+    <RelativeLayout
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="15dp">
+
+        <RelativeLayout
+            android:id="@+id/line1"
+            android:layout_width="120dp"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/car_switch_imageView"
+            android:layout_toStartOf="@+id/car_switch_imageView"
+            android:background="#000000"
+            android:visibility="visible">
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/line2"
+            android:layout_width="120dp"
+            android:layout_height="1dp"
+            android:layout_alignTop="@+id/line1"
+            android:layout_toEndOf="@+id/car_switch_imageView"
+            android:layout_toRightOf="@+id/car_switch_imageView"
+            android:background="#000000"
+            android:visibility="visible">
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/car_switch_imageView"
+            android:layout_width="66dp"
+            android:layout_height="15dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/icon_car_switch" />
+
+    </RelativeLayout>
+
+</LinearLayout>

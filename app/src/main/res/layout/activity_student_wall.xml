@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.omriakerman.goigahf2.StudentWallActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/license_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/name_textView"
+                    android:layout_alignStart="@+id/name_textView"
+                    android:layout_below="@+id/name_textView"
+                    android:layout_marginTop="11dp"
+                    android:text="TextView"
+                    android:textColor="@color/colorWhite" />
+
+                <TextView
+                    android:id="@+id/name_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/profilePic_imageView"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginStart="17dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_toEndOf="@+id/profilePic_imageView"
+                    android:layout_toRightOf="@+id/profilePic_imageView"
+                    android:text="TextView"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="22sp" />
+
+                <ImageView
+                    android:id="@+id/profilePic_imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="47dp"
+                    android:layout_marginStart="47dp"
+                    android:layout_marginTop="30dp"
+                    app:srcCompat="@drawable/circle_drawable" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <include
+        android:id="@+id/include3"
+        layout="@layout/content_student_wall" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/call_fab"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        app:backgroundTint="@android:color/holo_orange_light"
+        app:layout_anchor="@id/include3"
+        app:layout_anchorGravity="top|end"
+        app:srcCompat="@drawable/icon_w_phone" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chat_fab"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="85dp"
+        android:layout_marginEnd="85dp"
+        app:backgroundTint="@android:color/holo_orange_light"
+        app:layout_anchor="@id/include3"
+        app:layout_anchorGravity="top|end"
+        app:srcCompat="@drawable/icon_w_chat" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/calendar_fab"
+        android:layout_width="52dp"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@android:color/holo_orange_light"
+        app:layout_anchor="@id/include3"
+        app:layout_anchorGravity="top|end"
+        app:srcCompat="@drawable/icon_w_calendar"
+        android:layout_marginRight="155dp"
+        android:layout_marginEnd="155dp"/>
+
+</android.support.design.widget.CoordinatorLayout>
