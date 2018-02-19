@@ -5,6 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +24,10 @@ import android.widget.Toast;
 public class StudentHomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private TabLayout tabLayout;
+    private myTabsPagerAdapter mTabsPagerAdapter;
+    private ViewPager mViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,15 +35,6 @@ public class StudentHomeScreenActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("עמרי אקרמן");
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -44,6 +44,52 @@ public class StudentHomeScreenActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mTabsPagerAdapter = new myTabsPagerAdapter(getSupportFragmentManager());
+
+        mViewPager = (ViewPager) findViewById(R.id.tabs_container);
+        mViewPager.setAdapter(mTabsPagerAdapter);
+        mViewPager.setCurrentItem(1);
+
+        tabLayout = (TabLayout) findViewById(R.id.student_tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.icon_mail);
+        tabLayout.getTabAt(1).setIcon(R.drawable.icon_profile);
+        tabLayout.getTabAt(2).setIcon(R.drawable.icon_chat);
+
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                TabLayout.Tab tab = tabLayout.getTabAt(position);
+                switch (position){
+                    case 0:
+//                        tab.setIcon(R.drawable.icon_mail_marked);
+//                        tabLayout.getTabAt(1).setIcon(R.drawable.icon_today_schedule);
+//                        tabLayout.getTabAt(2).setIcon(R.drawable.icon_chat);
+                        break;
+                    case 1:
+//                        tab.setIcon(R.drawable.icon_today_schedule_marked);
+//                        tabLayout.getTabAt(0).setIcon(R.drawable.icon_mail);
+//                        tabLayout.getTabAt(2).setIcon(R.drawable.icon_chat);
+                        break;
+                    case 2:
+//                        tab.setIcon(R.drawable.icon_chat_marked);
+//                        tabLayout.getTabAt(0).setIcon(R.drawable.icon_mail);
+//                        tabLayout.getTabAt(1).setIcon(R.drawable.icon_today_schedule);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
 
     private Boolean exit = false;
@@ -118,5 +164,34 @@ public class StudentHomeScreenActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public class myTabsPagerAdapter extends FragmentPagerAdapter {
+        public myTabsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position){
+                case 0:
+
+                case 1:
+                    return new StudentProfileTabFragment();
+                case 2:
+
+                default:
+                    return new ChatFragment();
+            }
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            //return PlaceholderFragment.newInstance(position + 1);
+        }
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return 3;
+        }
     }
 }
