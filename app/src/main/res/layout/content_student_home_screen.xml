@@ -15,7 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
+        android:elevation="10dp"
         android:visibility="visible"
+        app:tabIndicatorColor="@color/colorPrimary"
         app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1">
 
         <android.support.design.widget.TabItem
