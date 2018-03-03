@@ -28,6 +28,7 @@ import java.util.TimerTask;
 import java.util.logging.LogRecord;
 import android.os.Handler;
 
+import static android.content.ContentValues.TAG;
 import static com.example.omriakerman.goigahf2.HomeScreenActivity.db;
 
 /**
@@ -45,7 +46,18 @@ public class NextLessonsFragment extends android.support.v4.app.Fragment {
     TimerTask timerTask = new TimerTask() {
         @Override
         public void run() {
-            updateList(getActivity(), myAdapter);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    todayLessons.clear();
+                    System.out.println(db.getAllLessonsInDate(y, m, d));
+                    todayLessons.addAll(db.getAllLessonsInDate(y, m, d));
+
+                    myAdapter.notifyDataSetChanged();
+                }
+            });
+            //updateList(getActivity(), myAdapter);
+            Log.d(TAG, "Updated!!!!");
         }
     };
 

@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.FirebaseApp;
+
 public class StudentWallActivity extends AppCompatActivity {
 
     String studentId;

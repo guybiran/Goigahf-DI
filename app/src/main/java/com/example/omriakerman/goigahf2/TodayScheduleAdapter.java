@@ -34,7 +34,7 @@ public class TodayScheduleAdapter extends ArrayAdapter {
     public TodayScheduleAdapter(Context context, int textViewResourceId, ArrayList<Lesson> objects){
         super(context, textViewResourceId, objects);
         this.myObjects = objects;
-        myObjects.add(new Lesson());
+        //myObjects.add(new Lesson());
     }
 
     @Override

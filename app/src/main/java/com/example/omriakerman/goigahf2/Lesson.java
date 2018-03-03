@@ -1,61 +1,63 @@
 package com.example.omriakerman.goigahf2;
 
+import android.util.Log;
+
 import java.util.Calendar;
 import java.util.Date;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by user on 05/10/2017.
  */
 
-public class Lesson {
-    private Integer lessonId;
-    private Student student;
-    private String startAddress, finishAddress;
-    private int lessonNumber;
-    private Date startTime, endTime;
-
+public class Lesson extends DatabaseLesson {
+    private Date startTimeDate, endTimeDate;
 
     public Lesson(){}
 
-    public Lesson(Integer id, Student stu, String start, String finish, long startT, long endT){
-        lessonId = id;
-        student = stu;
-        startAddress = start;
-        finishAddress = finish;
-        startTime = new Date(startT);
-        endTime = new Date(endT);
-        lessonNumber = stu.getNumberOfLessons() + 1;
-        stu.increaseNumberOfLessons();
+    public Lesson(String id, Student stu, String start, String finish, long startT, long endT){
+        super(id, stu, start, finish, startT, endT);
+        startTimeDate = new Date(startT);
+        endTimeDate = new Date(endT);
+        System.out.println("lalalalalalala");
+        System.out.println(startTimeDate);
     }
-    //return (minutes-9 < 0) ? String.valueOf(hour) + ":" + "0" + String.valueOf(minutes)  : String.valueOf(hour) + ":" + String.valueOf(minutes);
-    public Date getStartTimeDate() {return startTime;}
-    public Date getEndTimeDate() {return endTime;}
 
-    public long getStartTimeHourInMillis(){return startTime.getTime();}
+    //return (minutes-9 < 0) ? String.valueOf(hour) + ":" + "0" + String.valueOf(minutes)  : String.valueOf(hour) + ":" + String.valueOf(minutes);
+    public Date getStartTimeDate() {return startTimeDate;}
+    public Date getEndTimeDate() {return endTimeDate;}
+
+    public long getStartTimeHourInMillis(){return startTimeDate.getTime();}
 
     public String getHM_StartString(){return getStartHourString() + ":" + getStartMinutesString();}
     public String getHM_EndString(){return getEndHourString() + ":" + getEndMinutesString();}
 
-    public String getStartHourString(){return String.valueOf(startTime.getHours());}
-    public String getEndHourString(){return String.valueOf(endTime.getHours());}
+    public String getStartHourString(){
+        System.out.println(startTimeDate);
+        String s = String.valueOf(startTimeDate.getHours());
+        Log.d(TAG, s);
+        return String.valueOf(startTimeDate.getHours());
+    } //TODO
+    public String getEndHourString(){return String.valueOf(endTimeDate.getHours());}
 
-    public String getStartMinutesString(){return (startTime.getMinutes() < 10) ? ("0"+String.valueOf(startTime.getMinutes())) : String.valueOf(startTime.getMinutes());}
-    public String getEndMinutesString(){return (endTime.getMinutes() < 10) ? ("0"+String.valueOf(endTime.getMinutes())) : String.valueOf(endTime.getMinutes());}
+    public String getStartMinutesString(){return (startTimeDate.getMinutes() < 10) ? ("0"+String.valueOf(startTimeDate.getMinutes())) : String.valueOf(startTimeDate.getMinutes());}
+    public String getEndMinutesString(){return (endTimeDate.getMinutes() < 10) ? ("0"+String.valueOf(endTimeDate.getMinutes())) : String.valueOf(endTimeDate.getMinutes());}
 
 
     public int getLessonYear(){
         Calendar c = Calendar.getInstance();
-        c.setTime(startTime);
+        c.setTime(startTimeDate);
         return c.get(Calendar.YEAR);
     }
     public int getLessonMonth(){
         Calendar c = Calendar.getInstance();
-        c.setTime(startTime);
+        c.setTime(startTimeDate);
         return c.get(Calendar.MONTH)+1;
     }
     public int getLessonDay(){
         Calendar c = Calendar.getInstance();
-        c.setTime(startTime);
+        c.setTime(startTimeDate);
         return c.get(Calendar.DATE);
     }
     public String getLessonDateString(){return String.valueOf(getLessonDay()) + "/" + String.valueOf(getLessonMonth()) + "/" + String.valueOf(getLessonYear());}
@@ -64,7 +66,7 @@ public class Lesson {
     public String getStartAddress(){return startAddress;}
     public String getFinishAddress(){return finishAddress;}
     public int getLessonNumber(){return lessonNumber;}
-    public Integer getLessonId(){
+    public String getLessonId(){
         return lessonId;
     }
 

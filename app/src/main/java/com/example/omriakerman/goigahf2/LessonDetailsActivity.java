@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 public class LessonDetailsActivity extends AppCompatActivity {
-    Integer lessonId;
+    String lessonId;
     Lesson lesson;
 
     @Override
@@ -22,7 +22,7 @@ public class LessonDetailsActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        lessonId = intent.getIntExtra("lesson_id", 0);
+        lessonId = intent.getStringExtra("lesson_id");
         lesson = Database.getLessonById(lessonId);
 
         TextView date = (TextView) findViewById(R.id.date_textView);

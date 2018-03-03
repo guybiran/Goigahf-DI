@@ -2,6 +2,7 @@ package com.example.omriakerman.goigahf2;
 
 
 //import android.icu.util.GregorianCalendar;
+import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -9,9 +10,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.StringTokenizer;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by user on 09/11/2016.
@@ -21,6 +32,8 @@ public class Database {
     public static ArrayList<Lesson> allLessons = new ArrayList<>();
     public static Instructor instructor;
     public static ArrayList<Student> allStudents = new ArrayList<>();
+    private static final String TAG = "DataBase";
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Lessons");
 
     Set<Integer> generatedIds = new LinkedHashSet<Integer>();
     Random rng = new Random();
@@ -28,24 +41,63 @@ public class Database {
     Calendar cal = Calendar.getInstance();
 
     public Database(){
-
-        int mHour = cal.get(Calendar.HOUR);
-        int mMinute = cal.get(Calendar.MINUTE);
-        int mYear = cal.get(Calendar.YEAR);
-        int mMonth = cal.get(Calendar.MONTH);
-        int mDay = cal.get(Calendar.DAY_OF_WEEK);
-
         setFakeInstructor();
         setFakeStudents();
-        setFakeLessons();
-        allLessons = sortLessonsByHour(allLessons);
+        //setFakeLessons();
+
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                DatabaseLesson database_lesson = dataSnapshot.getValue(DatabaseLesson.class);
+                Lesson new_lesson = new Lesson(database_lesson.lessonId, database_lesson.student, database_lesson.startAddress, database_lesson.finishAddress, database_lesson.startTime, database_lesson.endTime);
+
+                System.out.println(new_lesson);
+                allLessons.add(new_lesson);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /*
+       ref.addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+               Lesson new_lesson = dataSnapshot.getValue(Lesson.class);
+               System.out.println(new_lesson);
+           }
+
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+
+           }
+       });*/
+
+       allLessons = sortLessonsByHour(allLessons);
     }
 
     public void sortByHourMinutes(){
 
     }
 
-    public static Lesson getLessonById(Integer id){
+    public static Lesson getLessonById(String id){
         Lesson t = new Lesson();
         for(int i=0; i<allLessons.size(); ++i){
             if(getLesson(i).getLessonId().equals(id)){
@@ -107,22 +159,34 @@ public class Database {
     }
 
 
-    void setStudentsFromServer(){}
+    void setStudentsFromServer(){
+
+    }
 
     //Return true if lesson succesfully added, false otherwise.
-    boolean addLesson(Lesson l){
+    boolean addLesson(Student stu, String start, String finish, long startT, long endT){
         int i;
         Date newDate, date;
+        boolean retval = true;
+        DatabaseReference lesson_ref;
+        String userId = stu.getIdNumber();
+        DatabaseLesson database_lesson = new DatabaseLesson(userId, stu, start, finish, startT, endT);
+        Lesson l = new Lesson(userId, stu, start, finish, startT, endT);
 
         newDate = l.getStartTimeDate();
 
         for(i=0;i<allLessons.size(); i++){
             date = allLessons.get(i).getStartTimeDate();
             if(date.equals(newDate)) {
+                Log.d(TAG, "Failed to Add lesson.");
                 return false;
             }
         }
 
+        Log.d(TAG, "Added lesson successfully.");
+        lesson_ref = ref.push();
+        lesson_ref.setValue(database_lesson);
+        //ref.child(userId).setValue(l);
         allLessons.add(l);
         return true;
     }
@@ -143,67 +207,67 @@ public class Database {
         start = cal.getTimeInMillis();
         cal.set(y,m,d,8,40);
         end = cal.getTimeInMillis();
-        addLesson(new Lesson(generateId(), getStudentById("318735149"), "מרכזית", "מרכזית", start, end));
+        addLesson(getStudentById("318735149"), "מרכזית", "מרכזית", start, end);
 
         cal.set(y,m,d,7,20);
         start = cal.getTimeInMillis();
         cal.set(y,m,d,8,0);
         end = cal.getTimeInMillis();
-        addLesson(new Lesson(generateId(), getStudentById("376498775"), "גשר", "ביג", start, end));
+        addLesson(getStudentById("376498775"), "גשר", "ביג", start, end);
 
         cal.set(y,m,d,11,20);
         start = cal.getTimeInMillis();
         cal.set(y,m,d,12,0);
         end = cal.getTimeInMillis();
-        addLesson(new Lesson(generateId(), getStudentById("318735149"), "מרכזית", "ביג", start, end));
+        addLesson(getStudentById("318735149"), "מרכזית", "ביג", start, end);
 
         cal.set(y,m,d,9,20);
         start = cal.getTimeInMillis();
         cal.set(y,m,d,10,0);
         end = cal.getTimeInMillis();
-        addLesson(new Lesson(generateId(), getStudentById("304697852"), "טלאל", "גשר", start, end));
+        addLesson(getStudentById("304697852"), "טלאל", "גשר", start, end);
 
         cal.set(y,m,d,10,0);
         start = cal.getTimeInMillis();
         cal.set(y,m,d,10,40);
         end = cal.getTimeInMillis();
-        addLesson(new Lesson(generateId(), getStudentById("318735149"), "גשר", "משגב", start, end));
+        addLesson(getStudentById("318735149"), "גשר", "משגב", start, end);
 
         cal.set(y,m,d,10,40);
         start = cal.getTimeInMillis();
         cal.set(y,m,d,11,20);
         end = cal.getTimeInMillis();
-        addLesson(new Lesson(generateId(), getStudentById("304697852"), "מרכזית", "ביג", start, end));
+        addLesson(getStudentById("304697852"), "מרכזית", "ביג", start, end);
 
         cal.set(y,m,d,12,40);
         start = cal.getTimeInMillis();
         cal.set(y,m,d,13,20);
         end = cal.getTimeInMillis();
-        addLesson(new Lesson(generateId(), getStudentById("022899371"), "ביג", "ביג", start, end));
+        addLesson(getStudentById("022899371"), "ביג", "ביג", start, end);
 
         cal.set(y,m,d,13,20);
         start = cal.getTimeInMillis();
         cal.set(y,m,d,14,0);
         end = cal.getTimeInMillis();
-        addLesson(new Lesson(generateId(), getStudentById("318735149"), "מרכזית", "מרכזית", start, end));
+        addLesson(getStudentById("318735149"), "מרכזית", "מרכזית", start, end);
 
         cal.set(y,m,d,12,0);
         start = cal.getTimeInMillis();
         cal.set(y,m,d,12,40);
         end = cal.getTimeInMillis();
-        addLesson(new Lesson(generateId(), getStudentById("304697852"), "מרכזית", "ביג", start, end));
+        addLesson(getStudentById("304697852"), "מרכזית", "ביג", start, end);
 
         cal.set(y,m,d,15,25);
         start = cal.getTimeInMillis();
         cal.set(y,m,d,16,15);
         end = cal.getTimeInMillis();
-        addLesson(new Lesson(generateId(), getStudentById("304697852"), "בית ספר כרמים", "ביג", start, end));
+        addLesson(getStudentById("304697852"), "בית ספר כרמים", "ביג", start, end);
 
         cal.set(y,m,d,16,30);
         start = cal.getTimeInMillis();
         cal.set(y,m,d,17,10);
         end = cal.getTimeInMillis();
-        addLesson(new Lesson(generateId(), getStudentById("318735149"), "מרכזית", "מרכזית", start, end));
+        addLesson(getStudentById("318735149"), "מרכזית", "מרכזית", start, end);
 
 //        cal.set(y,m,d,h,min);
 //        start = cal.getTimeInMillis();

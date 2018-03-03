@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "274218209616",
+    "firebase_url": "https://diappui2.firebaseio.com",
+    "project_id": "diappui2",
+    "storage_bucket": "diappui2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274218209616:android:59550322d42fd28f",
+        "android_client_info": {
+          "package_name": "com.example.omriakerman.goigahf2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274218209616-0iu020059tdqgclbquiv3l83d3c3v84g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.omriakerman.goigahf2",
+            "certificate_hash": "3acd0ed542cab7880b5c5c4969deee6beb7301fd"
+          }
+        },
+        {
+          "client_id": "274218209616-uo4n28pjqfgi889gqabbns1mbd0r04l7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAowveQrzRZuqThhjpDqN_xy1z9xP1oLG8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274218209616-uo4n28pjqfgi889gqabbns1mbd0r04l7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,10 +1,11 @@
 package com.example.omriakerman.goigahf2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,20 +31,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private TabLayout tabLayout;
-    private DateFormat df = new SimpleDateFormat("EEE - d MMM, yyyy");
+    private SimpleDateFormat df = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
     private String timeTitle = df.format(Calendar.getInstance().getTime());
     private TabsPagerAdapter mTabsPagerAdapter;
     private ViewPager mViewPager;
-    public static Database db = new Database();
     static int pos=1;
+    public static Database db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
+        db = new Database();
         setContentView(R.layout.activity_home_screen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(timeTitle);
@@ -58,7 +63,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        tabLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR); // TODO Api lecel
 
         //createCustomTabs();
         tabLayout.getTabAt(0).setIcon(R.drawable.icon_mail);
