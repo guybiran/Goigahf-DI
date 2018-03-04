@@ -1,124 +1,98 @@
 package com.example.omriakerman.goigahf2;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
+import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class StudentHomeScreenActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.lang.reflect.Field;
 
-    private TabLayout tabLayout;
-    private myTabsPagerAdapter mTabsPagerAdapter;
-    private ViewPager mViewPager;
+public class StudentHomeScreenActivity extends AppCompatActivity {
+
+    private Toolbar myToolbar;
+    private BottomNavigationView navigation;
+    private TabsPagerAdapter mTabsPagerAdapter;
+    private ViewPager viewPager;
+    private Fragment containerFragment;
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_history:
+                    myToolbar.setTitle(R.string.title_history);
+                    viewPager.setCurrentItem(0);
+                    return true;
+                case R.id.navigation_calendar:
+                    myToolbar.setTitle(R.string.title_calendar);
+                    viewPager.setCurrentItem(1);
+                    return true;
+                case R.id.navigation_profile:
+                    myToolbar.setTitle(R.string.title_profile);
+                    viewPager.setCurrentItem(2);
+                    return true;
+                case R.id.navigation_chat:
+                    myToolbar.setTitle(R.string.title_chat);
+                    viewPager.setCurrentItem(3);
+                    return true;
+            }
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_home_screen);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("עמרי אקרמן");
-        setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        myToolbar = findViewById(R.id.toolbar);
+        myToolbar.setTitle("Student");
+        //toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
+        setSupportActionBar(myToolbar);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
+        viewPager = findViewById(R.id.studentContainer);
+        viewPager.setAdapter(mTabsPagerAdapter);
 
-        mTabsPagerAdapter = new myTabsPagerAdapter(getSupportFragmentManager());
-
-        mViewPager = (ViewPager) findViewById(R.id.tabs_container);
-        mViewPager.setAdapter(mTabsPagerAdapter);
-        mViewPager.setCurrentItem(1);
-
-        tabLayout = (TabLayout) findViewById(R.id.student_tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-
-        tabLayout.getTabAt(0).setIcon(R.drawable.icon_mail);
-        tabLayout.getTabAt(1).setIcon(R.drawable.icon_profile);
-        tabLayout.getTabAt(2).setIcon(R.drawable.icon_chat);
-
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                TabLayout.Tab tab = tabLayout.getTabAt(position);
-                switch (position){
-                    case 0:
-//                        tab.setIcon(R.drawable.icon_mail_marked);
-//                        tabLayout.getTabAt(1).setIcon(R.drawable.icon_today_schedule);
-//                        tabLayout.getTabAt(2).setIcon(R.drawable.icon_chat);
-                        break;
-                    case 1:
-//                        tab.setIcon(R.drawable.icon_today_schedule_marked);
-//                        tabLayout.getTabAt(0).setIcon(R.drawable.icon_mail);
-//                        tabLayout.getTabAt(2).setIcon(R.drawable.icon_chat);
-                        break;
-                    case 2:
-//                        tab.setIcon(R.drawable.icon_chat_marked);
-//                        tabLayout.getTabAt(0).setIcon(R.drawable.icon_mail);
-//                        tabLayout.getTabAt(1).setIcon(R.drawable.icon_today_schedule);
-                        break;
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-    }
-
-    private Boolean exit = false;
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            if (exit) {
-                finish(); // finish activity
-            } else {
-                Toast.makeText(this, "Press Back again to Exit.",
-                        Toast.LENGTH_SHORT).show();
-                exit = true;
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        exit = false;
-                    }
-                }, 3 * 1000);
-            }
-        }
+        navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        disableShiftMode(navigation);
+        navigation.setSelectedItemId(R.id.navigation_profile);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        int selectedItemId = navigation.getSelectedItemId();
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.student_home_screen, menu);
+
+        getMenuInflater().inflate(R.menu.student_home_screen, menu); //this is the default toolbar menu
+
+        if(selectedItemId == R.id.navigation_history){
+            //fetch toolbar menu for history tab
+        } else if(selectedItemId == R.id.navigation_calendar) {
+            //fetch toolbar menu for calendar tab
+        } else if(selectedItemId == R.id.navigation_profile){
+            //fetch toolbar menu for profile tab
+        } else if(selectedItemId == R.id.navigation_chat){
+            //fetch toolbar menu for chat tab
+        }
+
         return true;
     }
 
@@ -143,31 +117,48 @@ public class StudentHomeScreenActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    private Boolean exit = false;
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_calendar) {
-
-        } else if (id == R.id.nav_payments) {
-
-        } else if (id == R.id.nav_profile) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+    public void onBackPressed() {
+        if (exit) {
+            finish(); // finish activity
+        } else {
+            Toast.makeText(this, "Press Back again to Exit.",
+                    Toast.LENGTH_SHORT).show();
+            exit = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    exit = false;
+                }
+            }, 3 * 1000);
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
-    public class myTabsPagerAdapter extends FragmentPagerAdapter {
-        public myTabsPagerAdapter(FragmentManager fm) {
+    @SuppressLint("RestrictedApi")
+    private void disableShiftMode(BottomNavigationView view) {
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
+        try {
+            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+            shiftingMode.setAccessible(true);
+            shiftingMode.setBoolean(menuView, false);
+            shiftingMode.setAccessible(false);
+            for (int i = 0; i < menuView.getChildCount(); i++) {
+                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+                //item.setShiftingMode(false);
+                // set once again checked value, so view will be updated
+                item.setChecked(item.getItemData().isChecked());
+            }
+        } catch (NoSuchFieldException e) {
+            Log.e("BNVHelper", "Unable to get shift mode field", e);
+        } catch (IllegalAccessException e) {
+            Log.e("BNVHelper", "Unable to change value of shift mode", e);
+        }
+    }
+
+    public class TabsPagerAdapter extends FragmentPagerAdapter {
+
+        public TabsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -175,23 +166,24 @@ public class StudentHomeScreenActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             switch (position){
                 case 0:
-
+                    return new StudentHistoryFragment();
                 case 1:
-                    return new StudentProfileTabFragment();
+                    return new StudentCalendarFragment();
                 case 2:
-
-                default:
+                    return new StudentProfileFragment();
+                case 3:
                     return new ChatFragment();
+                default:
+                    return new NextLessonsFragment();
             }
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            //return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 4 total pages.
+            return 4;
         }
     }
+
+
 }

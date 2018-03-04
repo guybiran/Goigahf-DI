@@ -12,6 +12,7 @@
     <string name="title_progress">התקדמות</string>
     <string name="title_vehicle">רכב:</string>
     <string name="title_phone_number">מספר טלפון:</string>
+    <string name="title_chat">Chat</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -105,4 +106,7 @@
     <string name="title_activity_fuc_me">FucMeActivity</string>
     <string name="title_activity_student_wall">StudentWallActivity</string>
     <string name="title_activity_student_home_screen">StudentHomeScreenActivity</string>
+    <string name="title_history">History</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="title_profile">Profile</string>
 </resources>

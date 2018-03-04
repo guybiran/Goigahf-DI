@@ -8,8 +8,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".InstructorHomeScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".InstructorHomeScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LessonDetailsActivity" />
         <activity android:name=".StudentsListActivity" />
         <activity
@@ -21,7 +22,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.omriakerman.goigahf2.StudentsListActivity" />
         </activity>
-        <activity android:name=".StartingActivity"
+        <activity
+            android:name=".StartingActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -29,7 +31,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".StudentHomeScreenActivity"
