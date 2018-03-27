@@ -1,6 +1,7 @@
 package com.example.omriakerman.goigahf2;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,9 +15,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.Scroller;
 import android.widget.Toast;
 
 import java.lang.reflect.Field;
@@ -67,8 +73,16 @@ public class StudentHomeScreenActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
 
         mTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
-        viewPager = findViewById(R.id.studentContainer);
+        viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(mTabsPagerAdapter);
+
+        viewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
 
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -185,5 +199,53 @@ public class StudentHomeScreenActivity extends AppCompatActivity {
         }
     }
 
+    public class NonSwipeableViewPager extends ViewPager {
+
+        public NonSwipeableViewPager(Context context) {
+            super(context);
+            setMyScroller();
+        }
+
+        public NonSwipeableViewPager(Context context, AttributeSet attrs) {
+            super(context, attrs);
+            setMyScroller();
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(MotionEvent event) {
+            // Never allow swiping to switch between pages
+            return false;
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            // Never allow swiping to switch between pages
+            return false;
+        }
+
+        //down one is added for smooth scrolling
+
+        private void setMyScroller() {
+            try {
+                Class<?> viewpager = ViewPager.class;
+                Field scroller = viewpager.getDeclaredField("mScroller");
+                scroller.setAccessible(true);
+                scroller.set(this, new MyScroller(getContext()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public class MyScroller extends Scroller {
+            public MyScroller(Context context) {
+                super(context, new DecelerateInterpolator());
+            }
+
+            @Override
+            public void startScroll(int startX, int startY, int dx, int dy, int duration) {
+                super.startScroll(startX, startY, dx, dy, 350 /*1 secs*/);
+            }
+        }
+    }
 
 }
