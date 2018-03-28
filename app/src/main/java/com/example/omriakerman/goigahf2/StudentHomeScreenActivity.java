@@ -12,6 +12,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,36 +32,8 @@ public class StudentHomeScreenActivity extends AppCompatActivity {
 
     private Toolbar myToolbar;
     private BottomNavigationView navigation;
-    private TabsPagerAdapter mTabsPagerAdapter;
     private ViewPager viewPager;
     private Fragment containerFragment;
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_history:
-                    myToolbar.setTitle(R.string.title_history);
-                    viewPager.setCurrentItem(0);
-                    return true;
-                case R.id.navigation_calendar:
-                    myToolbar.setTitle(R.string.title_calendar);
-                    viewPager.setCurrentItem(1);
-                    return true;
-                case R.id.navigation_profile:
-                    myToolbar.setTitle(R.string.title_profile);
-                    viewPager.setCurrentItem(2);
-                    return true;
-                case R.id.navigation_chat:
-                    myToolbar.setTitle(R.string.title_chat);
-                    viewPager.setCurrentItem(3);
-                    return true;
-            }
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,44 +42,70 @@ public class StudentHomeScreenActivity extends AppCompatActivity {
 
         myToolbar = findViewById(R.id.toolbar);
         myToolbar.setTitle("Student");
-        //toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));
         setSupportActionBar(myToolbar);
 
-        mTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager());
-        viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(mTabsPagerAdapter);
-
-        viewPager.setOnTouchListener(new View.OnTouchListener() {
+        navigation = findViewById(R.id.navigation);
+        disableShiftMode(navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment selectedFragment = null;
+                switch (item.getItemId()) {
+                    case R.id.chat_fragment:
+                        selectedFragment = new ChatFragment();
+                        break;
+                    case R.id.profile_fragment:
+                        selectedFragment = new StudentProfileFragment();
+                        break;
+                    case R.id.calendar_fragment:
+                        selectedFragment = new StudentCalendarFragment();
+                        break;
+                    case R.id.history_fragment:
+                        selectedFragment = new StudentHistoryFragment();
+                        break;
+                }
+
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_layout, selectedFragment);
+                transaction.commit();
                 return true;
             }
         });
 
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, new StudentCalendarFragment());
+        transaction.commit();
 
-        navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        disableShiftMode(navigation);
-        navigation.setSelectedItemId(R.id.navigation_profile);
+        navigation.getMenu().getItem(2).setChecked(true);
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        int selectedItemId = navigation.getSelectedItemId();
         // Inflate the menu; this adds items to the action bar if it is present.
-
         getMenuInflater().inflate(R.menu.student_home_screen, menu); //this is the default toolbar menu
 
-        if(selectedItemId == R.id.navigation_history){
-            //fetch toolbar menu for history tab
-        } else if(selectedItemId == R.id.navigation_calendar) {
-            //fetch toolbar menu for calendar tab
-        } else if(selectedItemId == R.id.navigation_profile){
-            //fetch toolbar menu for profile tab
-        } else if(selectedItemId == R.id.navigation_chat){
-            //fetch toolbar menu for chat tab
-        }
+        return true;
+    }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu){
+        super.onPrepareOptionsMenu(menu);
+
+        int selectedItemId = navigation.getSelectedItemId();
+
+        if(selectedItemId == navigation.getMenu().getItem(3).getItemId()){
+            //fetch toolbar menu for history tab
+        } else if(selectedItemId == navigation.getMenu().getItem(2).getItemId()) {
+            //fetch toolbar menu for calendar tab
+        } else if(selectedItemId == navigation.getMenu().getItem(1).getItemId()){
+            //fetch toolbar menu for profile tab
+        } else if(selectedItemId == navigation.getMenu().getItem(0).getItemId()){
+            //fetch toolbar menu for chat tab
+        } else {
+
+        }
         return true;
     }
 
@@ -170,82 +169,6 @@ public class StudentHomeScreenActivity extends AppCompatActivity {
         }
     }
 
-    public class TabsPagerAdapter extends FragmentPagerAdapter {
 
-        public TabsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position){
-                case 0:
-                    return new StudentHistoryFragment();
-                case 1:
-                    return new StudentCalendarFragment();
-                case 2:
-                    return new StudentProfileFragment();
-                case 3:
-                    return new ChatFragment();
-                default:
-                    return new NextLessonsFragment();
-            }
-        }
-
-        @Override
-        public int getCount() {
-            // Show 4 total pages.
-            return 4;
-        }
-    }
-
-    public class NonSwipeableViewPager extends ViewPager {
-
-        public NonSwipeableViewPager(Context context) {
-            super(context);
-            setMyScroller();
-        }
-
-        public NonSwipeableViewPager(Context context, AttributeSet attrs) {
-            super(context, attrs);
-            setMyScroller();
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(MotionEvent event) {
-            // Never allow swiping to switch between pages
-            return false;
-        }
-
-        @Override
-        public boolean onTouchEvent(MotionEvent event) {
-            // Never allow swiping to switch between pages
-            return false;
-        }
-
-        //down one is added for smooth scrolling
-
-        private void setMyScroller() {
-            try {
-                Class<?> viewpager = ViewPager.class;
-                Field scroller = viewpager.getDeclaredField("mScroller");
-                scroller.setAccessible(true);
-                scroller.set(this, new MyScroller(getContext()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        public class MyScroller extends Scroller {
-            public MyScroller(Context context) {
-                super(context, new DecelerateInterpolator());
-            }
-
-            @Override
-            public void startScroll(int startX, int startY, int dx, int dy, int duration) {
-                super.startScroll(startX, startY, dx, dy, 350 /*1 secs*/);
-            }
-        }
-    }
 
 }
